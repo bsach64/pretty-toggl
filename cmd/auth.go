@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/bsach64/pretty-toggl/internal/env"
+	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
 	"github.com/spf13/cobra"
 )
@@ -21,8 +21,8 @@ var authCmd = &cobra.Command{
 		client := togglapi.NewClient(time.Minute)
 		valid := client.AuthUsingToken(args[0])
 		if valid {
-			env.CreateEnv()
-			err := env.WriteAuthToEnv(args[0])
+			util.CreateEnv()
+			err := util.WriteAuthToEnv(args[0])
 			if err != nil {
 				fmt.Println("Could not save API Token!")
 				return
