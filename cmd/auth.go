@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
+	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/spf13/cobra"
 )
 
@@ -14,9 +14,9 @@ func init() {
 }
 
 var authCmd = &cobra.Command{
-	Use: "auth [API TOKEN]",
+	Use:   "auth [API TOKEN]",
 	Short: "Authenticate with an API token!",
-	Long: "Provide an API Token to enable functionality!",
+	Long:  "Provide an API Token to enable functionality!",
 	Run: func(cmd *cobra.Command, args []string) {
 		client := togglapi.NewClient(time.Minute)
 		valid := client.AuthUsingToken(args[0])
@@ -32,8 +32,6 @@ var authCmd = &cobra.Command{
 			fmt.Println("Please Enter a valid API token!")
 		}
 	},
-	Args: cobra.ExactArgs(1),
+	Args:                  cobra.ExactArgs(1),
 	DisableFlagsInUseLine: true,
 }
-
-

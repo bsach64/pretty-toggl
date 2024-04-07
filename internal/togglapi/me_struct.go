@@ -4,7 +4,6 @@ import (
 	"time"
 )
 
-
 type Me struct {
 	ID                 int       `json:"id"`
 	APIToken           string    `json:"api_token"`

@@ -23,14 +23,14 @@ func (c *Client) MeReq() (Me, error) {
 	if !valid {
 		return Me{}, errors.New("Could not get auth token")
 	}
-	
+
 	req.SetBasicAuth(token, "api_token")
 
 	resp, err := c.HttpClient.Do(req)
 	if err != nil {
 		return Me{}, err
 	}
-	
+
 	dat, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return Me{}, err

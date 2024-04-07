@@ -11,13 +11,13 @@ import (
 )
 
 var (
-	projectsFlag bool
-	tagsFlag bool
+	projectsFlag   bool
+	tagsFlag       bool
 	workspacesFlag bool
-	listCmd = &cobra.Command{
-		Use: "list",
+	listCmd        = &cobra.Command{
+		Use:   "list",
 		Short: "Get list of all projects, tags, workspaces",
-		Long: "Get list of all projects, tags, workspaces",
+		Long:  "Get list of all projects, tags, workspaces",
 		Run: func(cmd *cobra.Command, args []string) {
 			client := togglapi.NewClient(time.Minute)
 			me, err := client.MeReq()
@@ -32,7 +32,7 @@ var (
 func init() {
 	rootCmd.AddCommand(listCmd)
 	listCmd.Flags().BoolVarP(&projectsFlag, "projects", "p", false, "Specify to list projects")
-	listCmd.Flags().BoolVarP(&tagsFlag, "tags", "t" , false, "Specify to list tags")
+	listCmd.Flags().BoolVarP(&tagsFlag, "tags", "t", false, "Specify to list tags")
 	listCmd.Flags().BoolVarP(&workspacesFlag, "workspaces", "w", false, "Specify to list workspaces")
 }
 
@@ -69,4 +69,3 @@ func List(me togglapi.Me, projectsFlag, tagsFlag, workspacesFlag bool) string {
 
 	return output.String()
 }
-

@@ -11,7 +11,7 @@ import (
 func CreateEnv() {
 	_, err := os.Stat(".env")
 	if errors.Is(err, os.ErrNotExist) {
-		_, e := os.Create(".env") 
+		_, e := os.Create(".env")
 		if e != nil {
 			log.Fatal("Could not create .env file")
 		}
@@ -20,11 +20,11 @@ func CreateEnv() {
 	}
 }
 
-func WriteAuthToEnv(val string) (error) {
+func WriteAuthToEnv(val string) error {
 	authMap := map[string]string{
-		"AUTH":val,
+		"AUTH": val,
 	}
-	err := godotenv.Write(authMap, ".env") 
+	err := godotenv.Write(authMap, ".env")
 	if err != nil {
 		return err
 	}
