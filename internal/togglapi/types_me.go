@@ -6,7 +6,6 @@ import (
 
 type Me struct {
 	ID                 int       `json:"id"`
-	APIToken           string    `json:"api_token"`
 	Email              string    `json:"email"`
 	Fullname           string    `json:"fullname"`
 	Timezone           string    `json:"timezone"`
