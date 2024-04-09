@@ -31,13 +31,21 @@ func NewGetRequest(url string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
+	err = AddHeadersAuth(req)
+	if err != nil {
+		return nil, err
+	}
+	return req, nil
+}
+
+func AddHeadersAuth(req *http.Request) error {
 	req.Header.Add("Content-Type", "application/json")
 
 	token, valid := util.ReadAuthFromEnv()
 	if !valid {
-		return nil, &InvalidAPIToken{}
+		return &InvalidAPIToken{}
 	}
 
 	req.SetBasicAuth(token, "api_token")
-	return req, nil
+	return nil
 }
