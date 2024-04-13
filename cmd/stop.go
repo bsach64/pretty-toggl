@@ -10,9 +10,9 @@ import (
 )
 
 var stopCmd = &cobra.Command{
-	Use: "stop",
+	Use:   "stop",
 	Short: "Stops the current time entry!",
-	Long: "Stops the current time entry!",
+	Long:  "Stops the current time entry!",
 	Run: func(cmd *cobra.Command, args []string) {
 		client := togglapi.NewClient(time.Minute)
 		ct, err := client.CurrentTimeEntryReq()

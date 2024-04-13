@@ -11,18 +11,17 @@ import (
 
 var (
 	projectName string
-	tags string
-	billable bool
+	tags        string
+	billable    bool
 	description string
 	workspaceID int
-	startCmd = &cobra.Command{
-		Use: "start",
+	startCmd    = &cobra.Command{
+		Use:   "start",
 		Short: "Starts a timer",
-		Long: "Starts a timer",
-		Run: Start,
+		Long:  "Starts a timer",
+		Run:   Start,
 	}
 )
-
 
 func init() {
 	rootCmd.AddCommand(startCmd)

@@ -6,7 +6,7 @@ import (
 )
 
 func (c *Client) StopReq(workspaceID, timeEntryID int) (bool, error) {
-	endpoint := fmt.Sprintf("/workspaces/%v/time_entries/%v/stop", 
+	endpoint := fmt.Sprintf("/workspaces/%v/time_entries/%v/stop",
 		workspaceID, timeEntryID)
 	fullURL := baseURL + endpoint
 
