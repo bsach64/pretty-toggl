@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
@@ -22,7 +21,8 @@ var (
 			client := togglapi.NewClient(time.Minute)
 			me, err := client.MeReq()
 			if err != nil {
-				log.Fatal(err.Error())
+				fmt.Println(err.Error())
+				return
 			}
 			fmt.Print(List(me, projectsFlag, tagsFlag, workspacesFlag))
 		},

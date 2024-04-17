@@ -2,22 +2,22 @@ package util
 
 import (
 	"errors"
-	"log"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
-func CreateEnv() {
+func CreateEnv() error {
 	_, err := os.Stat(".env")
 	if errors.Is(err, os.ErrNotExist) {
 		_, e := os.Create(".env")
 		if e != nil {
-			log.Fatal("Could not create .env file")
+			return err
 		}
 	} else if err != nil {
-		log.Fatal("Could not stat .env")
+		return err
 	}
+	return nil
 }
 
 func WriteAuthToEnv(val string) error {

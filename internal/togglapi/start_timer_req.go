@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 )
 
@@ -29,11 +28,11 @@ func (c *Client) StartTimeEntry(timeEntry NewTimeEntry) (bool, error) {
 	}
 	resp, err := c.HttpClient.Do(req)
 	if err != nil {
-		log.Println(err.Error())
+		fmt.Println(err.Error())
 		return false, err
 	}
 	if resp.StatusCode == 200 {
-		log.Println(resp.StatusCode)
+		fmt.Println(resp.StatusCode)
 		return true, nil
 	}
 	dat, err := io.ReadAll(resp.Body)

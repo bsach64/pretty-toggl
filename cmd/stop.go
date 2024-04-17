@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
@@ -17,9 +16,14 @@ var stopCmd = &cobra.Command{
 		client := togglapi.NewClient(time.Minute)
 		ct, err := client.CurrentTimeEntryReq()
 		if err != nil {
-			log.Fatal(err.Error())
+			fmt.Println(err.Error())
+			return
 		}
 		suc, err := client.StopReq(ct.WorkspaceID, int(ct.ID))
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
 		if !suc {
 			fmt.Println("Could not stop timer!")
 		} else {
