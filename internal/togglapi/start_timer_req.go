@@ -3,36 +3,42 @@ package togglapi
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 )
 
-func (c *Client) StartTimeEntry(timeEntry NewTimeEntry) bool {
+func (c *Client) StartTimeEntry(timeEntry NewTimeEntry) (bool, error) {
 	endpoint := fmt.Sprintf("/workspaces/%v/time_entries", timeEntry.WorkspaceID)
 	fullURL := baseURL + endpoint
-	fmt.Println(fullURL)
+
 	data, err := json.Marshal(timeEntry)
 	if err != nil {
-		return false
+		return false, err
 	}
 	req, err := http.NewRequest(http.MethodPost, fullURL, bytes.NewBuffer(data))
 	if err != nil {
-		return false
+		return false, err
 	}
 	req.Header.Add("Content-Type", "application/json")
 	err = AddHeadersAuth(req)
 	if err != nil {
-		return false
+		return false, err
 	}
 	resp, err := c.HttpClient.Do(req)
 	if err != nil {
 		log.Println(err.Error())
-		return false
+		return false, err
 	}
-	if resp.StatusCode != 200 {
+	if resp.StatusCode == 200 {
 		log.Println(resp.StatusCode)
-		return false
+		return true, nil
 	}
-	return true
+	dat, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false, err
+	}
+	return false, errors.New(string(dat))
 }

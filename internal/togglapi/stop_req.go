@@ -1,7 +1,9 @@
 package togglapi
 
 import (
+	"errors"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -23,8 +25,12 @@ func (c *Client) StopReq(workspaceID, timeEntryID int) (bool, error) {
 		return false, err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
-		return false, nil
+	if resp.StatusCode == 200 {
+		return true, nil
 	}
-	return true, nil
+	dat, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return false, err
+	}
+	return false, errors.New(string(dat))
 }

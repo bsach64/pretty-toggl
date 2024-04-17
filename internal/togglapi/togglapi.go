@@ -26,18 +26,6 @@ func NewClient(interval time.Duration) Client {
 	}
 }
 
-func NewGetRequest(url string) (*http.Request, error) {
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	if err != nil {
-		return nil, err
-	}
-	err = AddHeadersAuth(req)
-	if err != nil {
-		return nil, err
-	}
-	return req, nil
-}
-
 func AddHeadersAuth(req *http.Request) error {
 	req.Header.Add("Content-Type", "application/json")
 

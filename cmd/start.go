@@ -58,7 +58,11 @@ func Start(cmd *cobra.Command, args []string) {
 	}
 	tE.Start = time.Now().UTC().Format("2006-01-02T15:04:05Z")
 	fmt.Println(tE)
-	started := client.StartTimeEntry(tE)
+	started, err := client.StartTimeEntry(tE)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
 	if started {
 		fmt.Println("Started a Time Entry!")
 	} else {

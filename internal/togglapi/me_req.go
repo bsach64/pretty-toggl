@@ -3,13 +3,22 @@ package togglapi
 import (
 	"encoding/json"
 	"io"
+	"net/http"
 )
 
 func (c *Client) MeReq() (Me, error) {
 	endpoint := "/me?with_related_data=true"
 	fullURL := baseURL + endpoint
 
-	req, err := NewGetRequest(fullURL)
+	req, err := http.NewRequest(http.MethodGet, fullURL, nil)
+	if err != nil {
+		return Me{}, err
+	}
+	err = AddHeadersAuth(req)
+
+	if err != nil {
+		return Me{}, err
+	}
 
 	resp, err := c.HttpClient.Do(req)
 	if err != nil {

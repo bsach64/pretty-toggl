@@ -24,26 +24,26 @@ var currentCmd = &cobra.Command{
 		client := togglapi.NewClient(time.Minute)
 		ct, err := client.CurrentTimeEntryReq()
 		if ct.ID == 0 {
-			fmt.Println("No Current Running Time Entry!")
+			fmt.Println("\tNo Current Running Time Entry!")
 			return
 		}
 
 		if err != nil {
 			log.Fatal(err.Error())
 		}
-		output.WriteString("Start Time: ")
+		output.WriteString("\tStart Time: ")
 		output.WriteString(fmt.Sprint(ct.Start) + "\n")
 		if ct.ProjectID != nil {
-			output.WriteString("Project: ")
+			output.WriteString("\tProject: ")
 			output.WriteString(GetProjectNameFromID(client, *ct.ProjectID))
 			output.WriteString("\n")
 		}
 
 		if ct.Description != "" {
-			output.WriteString("Description: " + ct.Description + "\n")
+			output.WriteString("\tDescription: " + ct.Description + "\n")
 		}
 		if len(ct.Tags) > 0 {
-			output.WriteString("Tags: ")
+			output.WriteString("\tTags: ")
 		}
 		for i := 0; i < len(ct.Tags); i++ {
 			output.WriteString(ct.Tags[i])
@@ -52,7 +52,7 @@ var currentCmd = &cobra.Command{
 			}
 		}
 		output.WriteString("\n")
-		output.WriteString("Billable: " + strconv.FormatBool(ct.Billable) + "\n")
+		output.WriteString("\tBillable: " + strconv.FormatBool(ct.Billable) + "\n")
 		fmt.Print(output.String())
 	},
 }
