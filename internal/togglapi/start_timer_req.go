@@ -32,7 +32,6 @@ func (c *Client) StartTimeEntry(timeEntry NewTimeEntry) (bool, error) {
 		return false, err
 	}
 	if resp.StatusCode == 200 {
-		fmt.Println(resp.StatusCode)
 		return true, nil
 	}
 	dat, err := io.ReadAll(resp.Body)
