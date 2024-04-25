@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/bsach64/pretty-toggl/cmd"
 	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/joho/godotenv"
@@ -11,7 +9,7 @@ import (
 func main() {
 	err := util.CreateEnv()
 	if err != nil {
-		fmt.Println(err.Error())
+		util.PrintError(err.Error())
 		return
 	}
 	godotenv.Load(".env")

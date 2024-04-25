@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
+	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/spf13/cobra"
 )
 
@@ -21,7 +22,7 @@ var (
 			client := togglapi.NewClient(time.Minute)
 			me, err := client.MeReq()
 			if err != nil {
-				fmt.Println(err.Error())
+				util.PrintError(err.Error())
 				return
 			}
 			fmt.Print(List(me, projectsFlag, tagsFlag, workspacesFlag))

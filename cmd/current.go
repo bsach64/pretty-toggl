@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
+	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +33,7 @@ func current(cmd *cobra.Command, args []string) {
 	}
 
 	if err != nil {
-		fmt.Println(err.Error())
+		util.PrintError(err.Error())
 		return
 	}
 	output.WriteString("\tStart Time: ")
@@ -41,7 +42,7 @@ func current(cmd *cobra.Command, args []string) {
 		output.WriteString("\tProject: ")
 		pName, err := GetProjectNameFromID(client, *ct.ProjectID)
 		if err != nil {
-			fmt.Println("Could not get project name")
+			util.PrintError("Could not get project name")
 			return
 		}
 		output.WriteString(pName)

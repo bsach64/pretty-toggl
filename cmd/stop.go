@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
+	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/spf13/cobra"
 )
 
@@ -16,12 +17,12 @@ var stopCmd = &cobra.Command{
 		client := togglapi.NewClient(time.Minute)
 		ct, err := client.CurrentTimeEntryReq()
 		if err != nil {
-			fmt.Println(err.Error())
+			util.PrintError(err.Error())
 			return
 		}
 		suc, err := client.StopReq(ct.WorkspaceID, int(ct.ID))
 		if err != nil {
-			fmt.Println(err.Error())
+			util.PrintError(err.Error())
 			return
 		}
 		if !suc {

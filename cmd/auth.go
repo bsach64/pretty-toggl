@@ -26,14 +26,14 @@ func auth(cmd *cobra.Command, args []string) {
 	client := togglapi.NewClient(time.Minute)
 	valid, err := client.AuthUsingToken(args[0])
 	if err != nil {
-		fmt.Println(err)
+		util.PrintError(err.Error())
 		return
 	}
 	if valid {
 		util.CreateEnv()
 		err := util.WriteAuthToEnv(args[0])
 		if err != nil {
-			fmt.Println("Could not save API Token!")
+			util.PrintError("Could not save API Token!")
 			return
 		}
 		fmt.Println("Successfully Authenticated!")
