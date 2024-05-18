@@ -30,10 +30,9 @@ func auth(cmd *cobra.Command, args []string) {
 		return
 	}
 	if valid {
-		util.CreateEnv()
-		err := util.WriteAuthToEnv(args[0])
+		err := util.WriteAuthToken(args[0])
 		if err != nil {
-			util.PrintError("Could not save API Token!")
+			util.PrintError(fmt.Sprintf("Could not save API Token! %v", err.Error()))
 			return
 		}
 		fmt.Println("Successfully Authenticated!")

@@ -1,18 +1,15 @@
 package togglapi
 
 import (
-	"github.com/bsach64/pretty-toggl/internal/util"
+	"errors"
+	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/bsach64/pretty-toggl/internal/util"
 )
 
 const baseURL = "https://api.track.toggl.com/api/v9"
-
-type InvalidAPIToken struct{}
-
-func (e *InvalidAPIToken) Error() string {
-	return "Invalid API Token"
-}
 
 type Client struct {
 	HttpClient http.Client
@@ -29,9 +26,9 @@ func NewClient(interval time.Duration) Client {
 func AddHeadersAuth(req *http.Request) error {
 	req.Header.Add("Content-Type", "application/json")
 
-	token, valid := util.ReadAuthFromEnv()
-	if !valid {
-		return &InvalidAPIToken{}
+	token, err := util.ReadAuthToken()
+	if err != nil {
+		return errors.New(fmt.Sprintf("Invalid API Token: %v", err.Error()))
 	}
 
 	req.SetBasicAuth(token, "api_token")
