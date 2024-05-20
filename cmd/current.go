@@ -2,15 +2,22 @@ package cmd
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
 	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/spf13/cobra"
 )
+
+type TimeEntryInfo struct {
+	startTime time.Time
+	project string
+	description string
+	tags []string
+	billable bool
+}
+
 
 func init() {
 	rootCmd.AddCommand(currentCmd)
@@ -24,46 +31,27 @@ var currentCmd = &cobra.Command{
 }
 
 func current(cmd *cobra.Command, args []string) {
-	var output strings.Builder
 	client := togglapi.NewClient(time.Minute)
 	ct, err := client.CurrentTimeEntryReq()
-	if ct.ID == 0 {
-		fmt.Println("\tNo Current Running Time Entry!")
-		return
-	}
-
+	var tEntryInfo TimeEntryInfo
 	if err != nil {
 		util.PrintError(err.Error())
 		return
 	}
-	output.WriteString("\tStart Time: ")
-	output.WriteString(fmt.Sprint(ct.Start) + "\n")
+	tEntryInfo.startTime = ct.Start
 	if ct.ProjectID != nil {
-		output.WriteString("\tProject: ")
 		pName, err := GetProjectNameFromID(client, *ct.ProjectID)
 		if err != nil {
-			util.PrintError("Could not get project name")
+			util.PrintError("Could Not Get Project Name")
 			return
 		}
-		output.WriteString(pName)
-		output.WriteString("\n")
+		tEntryInfo.project = pName
 	}
 
-	if ct.Description != "" {
-		output.WriteString("\tDescription: " + ct.Description + "\n")
-	}
-	if len(ct.Tags) > 0 {
-		output.WriteString("\tTags: ")
-	}
-	for i := 0; i < len(ct.Tags); i++ {
-		output.WriteString(ct.Tags[i])
-		if i != len(ct.Tags)-1 {
-			output.WriteString(", ")
-		}
-	}
-	output.WriteString("\n")
-	output.WriteString("\tBillable: " + strconv.FormatBool(ct.Billable) + "\n")
-	fmt.Print(output.String())
+	tEntryInfo.description = ct.Description
+	tEntryInfo.tags = ct.Tags
+	tEntryInfo.billable = ct.Billable
+	PrintTimeEntryInfo(tEntryInfo)
 }
 
 func GetProjectNameFromID(client togglapi.Client, id int) (string, error) {
@@ -77,4 +65,19 @@ func GetProjectNameFromID(client togglapi.Client, id int) (string, error) {
 		}
 	}
 	return "", errors.New("Could not Find Project..")
+}
+
+
+func PrintTimeEntryInfo(tEntryInfo TimeEntryInfo) {
+	util.PrintKeyValue("Start Time", tEntryInfo.startTime.Local().String())
+	if tEntryInfo.project != "" {
+		util.PrintKeyValue("Project", tEntryInfo.project)
+	}
+	if len(tEntryInfo.tags) != 0 {
+		util.PrintKeyValue("Tags", tEntryInfo.tags...)
+	}
+	if tEntryInfo.description != "" {
+		util.PrintKeyValue("Description", tEntryInfo.description)
+	}
+	util.PrintKeyValue("Billable", strconv.FormatBool(tEntryInfo.billable))
 }
