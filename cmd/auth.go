@@ -35,8 +35,8 @@ func auth(cmd *cobra.Command, args []string) {
 			util.PrintError(fmt.Sprintf("Could not save API Token! %v", err.Error()))
 			return
 		}
-		fmt.Println("Successfully Authenticated!")
+		util.PrintDone("Successfully Authenticated!")
 	} else {
-		fmt.Println("Please Enter a valid API token!")
+		util.PrintError("Please Enter a valid API token!")
 	}
 }

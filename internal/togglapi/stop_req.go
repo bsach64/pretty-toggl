@@ -1,7 +1,6 @@
 package togglapi
 
 import (
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -28,9 +27,9 @@ func (c *Client) StopReq(workspaceID, timeEntryID int) (bool, error) {
 	if resp.StatusCode == 200 {
 		return true, nil
 	}
-	dat, err := io.ReadAll(resp.Body)
+	_, err = io.ReadAll(resp.Body)
 	if err != nil {
 		return false, err
 	}
-	return false, errors.New(string(dat))
+	return false, nil 
 }

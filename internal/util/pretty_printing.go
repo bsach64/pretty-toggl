@@ -11,3 +11,7 @@ func PrintError(str string) {
 	printErr.Print("ERROR: ")
 	fmt.Println(str)
 }
+
+func PrintDone(str string) {
+	color.New(color.FgGreen).Add(color.Bold).Println(str)
+}

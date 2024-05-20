@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
@@ -26,9 +25,9 @@ var stopCmd = &cobra.Command{
 			return
 		}
 		if !suc {
-			fmt.Println("Could not stop timer!")
+			util.PrintError("Could not stop timer!")
 		} else {
-			fmt.Println("Stopped Time Entry!")
+			util.PrintDone("Stopped Time Entry!")
 		}
 	},
 }
