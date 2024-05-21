@@ -35,14 +35,14 @@ func current(cmd *cobra.Command, args []string) {
 	ct, err := client.CurrentTimeEntryReq()
 	var tEntryInfo TimeEntryInfo
 	if err != nil {
-		util.PrintError(err.Error())
+		util.ErrorPrinter().Println(err.Error())
 		return
 	}
 	tEntryInfo.startTime = ct.Start
 	if ct.ProjectID != nil {
 		pName, err := GetProjectNameFromID(client, *ct.ProjectID)
 		if err != nil {
-			util.PrintError("Could Not Get Project Name")
+			util.ErrorPrinter().Println(err.Error())
 			return
 		}
 		tEntryInfo.project = pName
@@ -69,7 +69,8 @@ func GetProjectNameFromID(client togglapi.Client, id int) (string, error) {
 
 
 func PrintTimeEntryInfo(tEntryInfo TimeEntryInfo) {
-	util.PrintKeyValue("Start Time", tEntryInfo.startTime.Local().String())
+	util.PrintKeyValue("Start Time", tEntryInfo.startTime.Local().Format("3:04PM 02/01"))
+	util.PrintKeyValue("Running For", strconv.FormatFloat(time.Now().Sub(tEntryInfo.startTime).Minutes(), 'f', 0, 64) + " minutes")
 	if tEntryInfo.project != "" {
 		util.PrintKeyValue("Project", tEntryInfo.project)
 	}

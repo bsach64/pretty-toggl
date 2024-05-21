@@ -6,19 +6,18 @@ import (
 	"github.com/fatih/color"
 )
 
-func PrintError(str string) {
-	printErr := color.New(color.FgRed).Add(color.Bold)
-	printErr.Print("ERROR: ")
-	fmt.Println(str)
+func ErrorPrinter() *color.Color {
+	color.New(color.FgRed).Add(color.Bold).Print("\tERROR: ")
+	printErr := color.New(color.FgRed)
+	return printErr
 }
 
-func PrintDone(str string) {
-	color.New(color.FgGreen).Add(color.Bold).Println(str)
+func SuccessPrinter() *color.Color {
+	return color.New(color.FgGreen).Add(color.Bold)
 }
 
 func PrintKeyValue(key string, values ...string) {
-	printKey := color.New(color.FgBlue).Add(color.Bold)
-	printKey.Print("\t", key, ": ")
+	HeadingPrinter().Print("\t", key, ": ")
 	for i, v := range values {
 		fmt.Print(v)
 		if i != len(values) - 1 {
@@ -26,4 +25,8 @@ func PrintKeyValue(key string, values ...string) {
 		}
 	}
 	fmt.Println()
+}
+
+func HeadingPrinter() *color.Color {
+	return color.New(color.FgBlue).Add(color.Bold)
 }

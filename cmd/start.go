@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
+	"github.com/bsach64/pretty-toggl/internal/util"
 	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
 )
@@ -38,13 +39,13 @@ func start(cmd *cobra.Command, args []string) {
 	client := togglapi.NewClient(time.Minute)
 	me, err := client.MeReq()
 	if err != nil {
-		fmt.Println(err.Error())
+		util.ErrorPrinter().Println(err.Error())
 		return
 	}
 
 	err = parseInput(me)
 	if err != nil {
-		fmt.Println(err.Error())
+		util.ErrorPrinter().Println(err.Error())
 		return
 	}
 	tE := togglapi.CreateNewTimeEntry()
@@ -53,7 +54,7 @@ func start(cmd *cobra.Command, args []string) {
 	if in.projectName != "" {
 		id, found := getProjectID(me, in.projectName)
 		if !found {
-			fmt.Println("Could not find project")
+			util.ErrorPrinter().Println("Could Not Find Project Name!")
 			return
 		}
 		tE.ProjectID = &id
@@ -68,13 +69,13 @@ func start(cmd *cobra.Command, args []string) {
 	tE.Start = time.Now().UTC().Format("2006-01-02T15:04:05Z")
 	started, err := client.StartTimeEntry(tE)
 	if err != nil {
-		fmt.Println(err.Error())
+		util.ErrorPrinter().Println(err.Error())
 		return
 	}
 	if started {
-		fmt.Println("Started a Time Entry!")
+		util.SuccessPrinter().Println("Started a Time Entry!")
 	} else {
-		fmt.Println("Could not start Time Entry!")
+		util.ErrorPrinter().Println("Could Not Start Time Entry!")
 	}
 }
 
@@ -114,9 +115,7 @@ func runForm(me togglapi.Me) error {
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewSelect[string]().Title("Project").Options(huh.NewOptions(projectNames...)...).Value(&in.projectName),
-
 			huh.NewMultiSelect[string]().Title("Tags").Options(huh.NewOptions(tagNames...)...).Value(&tags),
-
 			huh.NewInput().Title("Description").Value(&in.description),
 			huh.NewConfirm().Title("Billable").Value(&in.billable),
 		),

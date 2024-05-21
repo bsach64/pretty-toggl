@@ -16,19 +16,19 @@ var stopCmd = &cobra.Command{
 		client := togglapi.NewClient(time.Minute)
 		ct, err := client.CurrentTimeEntryReq()
 		if err != nil {
-			util.PrintError(err.Error())
+			util.ErrorPrinter().Println(err.Error())
 			return
 		}
 		suc, err := client.StopReq(ct.WorkspaceID, int(ct.ID))
 		if err != nil {
-			util.PrintError(err.Error())
+			util.ErrorPrinter().Println(err.Error())
 			return
 		}
 		if !suc {
-			util.PrintError("Could not stop timer!")
-		} else {
-			util.PrintDone("Stopped Time Entry!")
+			util.ErrorPrinter().Println(err.Error())
+			return
 		}
+		util.SuccessPrinter().Println("Stopped Time Entry!")
 	},
 }
 

@@ -22,7 +22,7 @@ var (
 			client := togglapi.NewClient(time.Minute)
 			me, err := client.MeReq()
 			if err != nil {
-				util.PrintError(err.Error())
+				util.ErrorPrinter().Print(err.Error())
 				return
 			}
 			fmt.Print(List(me, projectsFlag, tagsFlag, workspacesFlag))

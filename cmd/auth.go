@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/bsach64/pretty-toggl/internal/togglapi"
@@ -26,17 +25,17 @@ func auth(cmd *cobra.Command, args []string) {
 	client := togglapi.NewClient(time.Minute)
 	valid, err := client.AuthUsingToken(args[0])
 	if err != nil {
-		util.PrintError(err.Error())
+		util.ErrorPrinter().Print(err.Error())
 		return
 	}
 	if valid {
 		err := util.WriteAuthToken(args[0])
 		if err != nil {
-			util.PrintError(fmt.Sprintf("Could not save API Token! %v", err.Error()))
+			util.ErrorPrinter().Printf("Could not save API Token! %v", err.Error())
 			return
 		}
-		util.PrintDone("Successfully Authenticated!")
+		util.SuccessPrinter().Println("Successfully Authenticated!")
 	} else {
-		util.PrintError("Please Enter a valid API token!")
+		util.ErrorPrinter().Println("Please Enter a valid API token!")
 	}
 }
