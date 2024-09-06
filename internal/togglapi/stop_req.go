@@ -31,5 +31,5 @@ func (c *Client) StopReq(workspaceID, timeEntryID int) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	return false, nil 
+	return false, nil
 }

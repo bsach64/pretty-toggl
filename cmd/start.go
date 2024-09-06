@@ -18,8 +18,7 @@ var (
 		billable    bool
 		description string
 	}
-	workspaceID int
-	startCmd    = &cobra.Command{
+	startCmd = &cobra.Command{
 		Use:   "start",
 		Short: "Starts a timer",
 		Long:  "Starts a timer\nIf no flag is specified a form pops up asking for details",

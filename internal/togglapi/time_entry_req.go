@@ -23,7 +23,7 @@ func (c *Client) CurrentTimeEntryReq() (CurrentTimeEntry, error) {
 	if err != nil {
 		return CurrentTimeEntry{}, err
 	}
-	
+
 	defer resp.Body.Close()
 	dat, err := io.ReadAll(resp.Body)
 	if err != nil {

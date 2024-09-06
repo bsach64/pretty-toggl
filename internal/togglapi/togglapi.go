@@ -1,7 +1,6 @@
 package togglapi
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -28,7 +27,7 @@ func AddHeadersAuth(req *http.Request) error {
 
 	token, err := util.ReadAuthToken()
 	if err != nil {
-		return errors.New(fmt.Sprintf("Invalid API Token: %v", err.Error()))
+		return fmt.Errorf("Invalid API Token: %v", err.Error())
 	}
 
 	req.SetBasicAuth(token, "api_token")

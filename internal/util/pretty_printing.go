@@ -20,7 +20,7 @@ func PrintKeyValue(key string, values ...string) {
 	HeadingPrinter().Print("\t", key, ": ")
 	for i, v := range values {
 		fmt.Print(v)
-		if i != len(values) - 1 {
+		if i != len(values)-1 {
 			fmt.Print(" ,")
 		}
 	}

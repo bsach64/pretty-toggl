@@ -11,13 +11,12 @@ import (
 )
 
 type TimeEntryInfo struct {
-	startTime time.Time
-	project string
+	startTime   time.Time
+	project     string
 	description string
-	tags []string
-	billable bool
+	tags        []string
+	billable    bool
 }
-
 
 func init() {
 	rootCmd.AddCommand(currentCmd)
@@ -67,10 +66,9 @@ func GetProjectNameFromID(client togglapi.Client, id int) (string, error) {
 	return "", errors.New("Could not Find Project..")
 }
 
-
 func PrintTimeEntryInfo(tEntryInfo TimeEntryInfo) {
 	util.PrintKeyValue("Start Time", tEntryInfo.startTime.Local().Format("3:04PM 02/01"))
-	util.PrintKeyValue("Running For", strconv.FormatFloat(time.Now().Sub(tEntryInfo.startTime).Minutes(), 'f', 0, 64) + " minutes")
+	util.PrintKeyValue("Running For", strconv.FormatFloat(time.Since(tEntryInfo.startTime).Minutes(), 'f', 0, 64)+" minutes")
 	if tEntryInfo.project != "" {
 		util.PrintKeyValue("Project", tEntryInfo.project)
 	}
